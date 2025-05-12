@@ -19,8 +19,10 @@ const commonFeatureRouter = require("./routes/common/feature-routes");
 //create a separate file for this and then import/use that file here
 
 mongoose
-  .connect("db_url")
-  .then(() => console.log("MongoDB connected"))
+  .connect("mongodb://localhost:27017/ecommerce")
+  .then(() => {
+    console.log("MongoDB connected");
+  })
   .catch((error) => console.log(error));
 
 const app = express();
@@ -55,5 +57,45 @@ app.use("/api/shop/search", shopSearchRouter);
 app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
+
+// const categories = ["men", "women", "kids", "accessories", "footwear"];
+// const brands = ["Nike", "Adidas", "Puma", "Reebok", "Zara", "H&M"];
+
+// const generateProducts = () => {
+//   const products = [];
+//   for (let i = 1; i <= 30; i++) {
+//     const category = categories[i % categories.length];
+//     const brand = brands[i % brands.length];
+//     const price = parseFloat((Math.random() * 100 + 10).toFixed(2));
+//     const salePrice = parseFloat((price - Math.random() * 20).toFixed(2));
+//     const stock = Math.floor(Math.random() * 100) + 10;
+//     const avgReview = parseFloat((Math.random() * 5).toFixed(1));
+
+//     products.push({
+//       image: `https://via.placeholder.com/150?text=Product+${i}`,
+//       title: `${brand} ${category} Product ${i}`,
+//       description: `High-quality ${category} product by ${brand}.`,
+//       category,
+//       brand,
+//       price,
+//       salePrice,
+//       totalStock: stock,
+//       averageReview: avgReview,
+//     });
+//   }
+//   return products;
+// };
+
+// const seedProducts = async () => {
+//   try {
+//     // await Product.deleteMany();
+//     const products = generateProducts();
+//     await Product.insertMany(products);
+//     console.log("✅ 30 Products inserted successfully!");
+//     // mongoose.disconnect();
+//   } catch (err) {
+//     console.error("Error inserting products:", err);
+//   }
+// };
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

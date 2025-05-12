@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const initialState = {
   email: "",
-  password: "",
+  password: "", // [john@mail.com = John@123 -- admin]
 };
 
 function AuthLogin() {

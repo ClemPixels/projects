@@ -1,7 +1,7 @@
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
@@ -18,12 +18,21 @@ function ProductImageUpload({
 }) {
   const inputRef = useRef(null);
 
-  console.log(isEditMode, "isEditMode");
+  // console.log(isEditMode, "isEditMode");
+
+  const [previewImage, setPreviewImage] = useState(null);
+  useEffect(() => {
+    if (imageFile) {
+      const objectUrl = URL.createObjectURL(imageFile);
+      setPreviewImage(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl); // Clean up the object URL after component unmounts
+    }
+  }, [imageFile]);
 
   function handleImageFileChange(event) {
     console.log(event.target.files, "event.target.files");
     const selectedFile = event.target.files?.[0];
-    console.log(selectedFile);
+    // console.log(selectedFile);
 
     if (selectedFile) setImageFile(selectedFile);
   }
@@ -40,6 +49,7 @@ function ProductImageUpload({
 
   function handleRemoveImage() {
     setImageFile(null);
+    setPreviewImage(null);
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -53,7 +63,7 @@ function ProductImageUpload({
       "http://localhost:5000/api/admin/products/upload-image",
       data
     );
-    console.log(response, "response");
+    // console.log(response, "response");
 
     if (response?.data?.success) {
       setUploadedImageUrl(response.data.result.url);
@@ -73,17 +83,16 @@ function ProductImageUpload({
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className={`${
-          isEditMode ? "opacity-60" : ""
-        } border-2 border-dashed rounded-lg p-4`}
+        className={`border-2 border-dashed rounded-lg p-4`}
       >
+        {previewImage && <img className="w-full" src={previewImage}></img>}
         <Input
           id="image-upload"
           type="file"
           className="hidden"
           ref={inputRef}
           onChange={handleImageFileChange}
-          disabled={isEditMode}
+          // disabled={isEditMode}
         />
         {!imageFile ? (
           <Label

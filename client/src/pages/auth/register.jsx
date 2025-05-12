@@ -27,6 +27,7 @@ function AuthRegister() {
         });
         navigate("/auth/login");
       } else {
+        console.log(data?.payload?.message);
         toast({
           title: data?.payload?.message,
           variant: "destructive",

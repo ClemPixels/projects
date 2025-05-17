@@ -58,6 +58,10 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
+app.get("/", (req, res) => {
+  res.send("Api Running...")
+})
+
 // const categories = ["men", "women", "kids", "accessories", "footwear"];
 // const brands = ["Nike", "Adidas", "Puma", "Reebok", "Zara", "H&M"];
 

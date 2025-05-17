@@ -14,13 +14,17 @@ const shopSearchRouter = require("./routes/shop/search-routes");
 const shopReviewRouter = require("./routes/shop/review-routes");
 
 const commonFeatureRouter = require("./routes/common/feature-routes");
+const Product = require("./models/Product");
 
 //create a database connection -> u can also
 //create a separate file for this and then import/use that file here
 
 mongoose
-  .connect("mongodb://localhost:27017/ecommerce")
+  .connect(
+    "mongodb+srv://kwasiclement764:zgf6Dor90ApMPb2Y@ecommerce-cluster.phx6fot.mongodb.net/mydb?retryWrites=true&w=majority&appName=ecommerce-cluster"
+  )
   .then(() => {
+    // seedProducts();
     console.log("MongoDB connected");
   })
   .catch((error) => console.log(error));
@@ -30,7 +34,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5174",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -58,44 +62,42 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
-// const categories = ["men", "women", "kids", "accessories", "footwear"];
-// const brands = ["Nike", "Adidas", "Puma", "Reebok", "Zara", "H&M"];
+const categories = ["men", "women", "kids", "accessories", "footwear"];
+const brands = ["Nike", "Adidas", "Puma", "Reebok", "Zara", "H&M"];
 
-// const generateProducts = () => {
-//   const products = [];
-//   for (let i = 1; i <= 30; i++) {
-//     const category = categories[i % categories.length];
-//     const brand = brands[i % brands.length];
-//     const price = parseFloat((Math.random() * 100 + 10).toFixed(2));
-//     const salePrice = parseFloat((price - Math.random() * 20).toFixed(2));
-//     const stock = Math.floor(Math.random() * 100) + 10;
-//     const avgReview = parseFloat((Math.random() * 5).toFixed(1));
+const generateProducts = () => {
+  const products = [];
+  for (let i = 1; i <= 10; i++) {
+    const category = categories[i % categories.length];
+    const brand = brands[i % brands.length];
+    const price = parseFloat((Math.random() * 100 + 10).toFixed(2));
+    const salePrice = parseFloat((price - Math.random() * 20).toFixed(2));
+    const stock = Math.floor(Math.random() * 100) + 10;
+    const avgReview = parseFloat((Math.random() * 5).toFixed(1));
 
-//     products.push({
-//       image: `https://via.placeholder.com/150?text=Product+${i}`,
-//       title: `${brand} ${category} Product ${i}`,
-//       description: `High-quality ${category} product by ${brand}.`,
-//       category,
-//       brand,
-//       price,
-//       salePrice,
-//       totalStock: stock,
-//       averageReview: avgReview,
-//     });
-//   }
-//   return products;
-// };
+    products.push({
+      image: `https://via.placeholder.com/150?text=Product+${i}`,
+      title: `${brand} ${category} Product ${i}`,
+      description: `High-quality ${category} product by ${brand}.`,
+      category,
+      brand,
+      price,
+      salePrice,
+      totalStock: stock,
+      averageReview: avgReview,
+    });
+  }
+  return products;
+};
 
-// const seedProducts = async () => {
-//   try {
-//     // await Product.deleteMany();
-//     const products = generateProducts();
-//     await Product.insertMany(products);
-//     console.log("✅ 30 Products inserted successfully!");
-//     // mongoose.disconnect();
-//   } catch (err) {
-//     console.error("Error inserting products:", err);
-//   }
-// };
+const seedProducts = async () => {
+  try {
+    const products = generateProducts();
+    await Product.insertMany(products);
+    console.log("✅ 30 Products inserted successfully!");
+  } catch (err) {
+    console.error("Error inserting products:", err);
+  }
+};
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

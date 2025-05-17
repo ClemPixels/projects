@@ -44,6 +44,15 @@ function AdminProducts() {
   const dispatch = useDispatch();
   const { toast } = useToast();
 
+  useEffect(() => {
+    if (uploadedImageUrl) {
+      setFormData((prev) => ({
+        ...prev,
+        image: uploadedImageUrl,
+      }));
+    }
+  }, [uploadedImageUrl]);
+
   function onSubmit(event) {
     event.preventDefault();
 
@@ -59,6 +68,8 @@ function AdminProducts() {
           if (data?.payload?.success) {
             dispatch(fetchAllProducts());
             setFormData(initialFormData);
+            setUploadedImageUrl(formData.image);
+            setImageFile(null);
             setOpenCreateProductsDialog(false);
             setCurrentEditedId(null);
           }

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
+import PropTypes from "prop-types";
 
 function ProductImageUpload({
   imageFile,
@@ -73,6 +74,7 @@ function ProductImageUpload({
 
   useEffect(() => {
     if (imageFile !== null) uploadImageToCloudinary();
+    console.log(uploadedImageUrl);
   }, [imageFile]);
 
   return (
@@ -127,5 +129,18 @@ function ProductImageUpload({
     </div>
   );
 }
+ProductImageUpload.propTypes = {
+  imageFile: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.instanceOf(File),
+  ]),
+  setImageFile: PropTypes.func.isRequired,
+  imageLoadingState: PropTypes.bool.isRequired,
+  uploadedImageUrl: PropTypes.string,
+  setUploadedImageUrl: PropTypes.func.isRequired,
+  setImageLoadingState: PropTypes.func.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
+  isCustomStyling: PropTypes.bool,
+};
 
 export default ProductImageUpload;

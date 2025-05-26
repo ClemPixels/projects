@@ -25,6 +25,7 @@ function AuthLogin() {
           title: data?.payload?.message,
         });
       } else {
+        console.log(data);
         toast({
           title: data?.payload?.message,
           variant: "destructive",
@@ -40,7 +41,7 @@ function AuthLogin() {
           Sign in to your account
         </h1>
         <p className="mt-2">
-          Don't have an account
+          Don&apos;t have an account
           <Link
             className="font-medium ml-2 text-primary hover:underline"
             to="/auth/register"

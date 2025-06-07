@@ -167,8 +167,9 @@ function ShoppingHome() {
             Shop by category
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {categoriesWithIcon.map((categoryItem) => (
+            {categoriesWithIcon.map((categoryItem, i) => (
               <Card
+                key={i}
                 onClick={() =>
                   handleNavigateToListingPage(categoryItem, "category")
                 }

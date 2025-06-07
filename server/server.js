@@ -34,8 +34,12 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
+<<<<<<< HEAD
     origin:
       "http://localhost:5174, http://localhost:5173, https://ecommerce-client-mx55.onrender.com",
+=======
+    origin: ["https://ecommerce-client-mx55.onrender.com", "http://localhost:5174", "http://localhost:5173"],
+>>>>>>> c9c41c8ddb9ba9812d3929805d6bfb335745cba9
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
